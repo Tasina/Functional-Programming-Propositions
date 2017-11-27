@@ -3,7 +3,6 @@
 //Af Hardy, Rasmus og Tasin
 //
 
-// Evaluate
 //  (Propositions) - Like an Interface C# Class
     type Expression =
     | Value of bool
@@ -27,19 +26,19 @@
         | ExculsiveOr (x, y) -> Evaluate env x <> Evaluate env y
         | Variable id -> env.[id]
 
-//  Map filled with string keys and boolean values.
+//   Create an expression that represents
+    let notExp = Not(Variable "b");
+    let andExp = And(Variable "a", Variable "c")
+    let orExp = Or(Variable "a", Variable "b")
+    let equalsExp = Equals(Variable "a", Value true)
+    let impliesExp = Implies(Variable "b", Variable "b")
+    let exculsiveOrExp = ExculsiveOr(Variable "a", Variable "b") 
+    
+    //  Map filled with string keys and boolean values.
     let environment = Map.ofList [ "a", true ;
                                    "b", false ;
                                    "c", true ]
 
-//   Create an expression that represents
-    let notExp = Not(Variable "a");
-    let andExp = And(Variable "a", Variable "b")
-    let orExp = Or(Variable "a", Variable "b")
-    let equalsExp = Equals(Variable "a", Value true)
-    let impliesExp = Implies(Variable "a", Variable "b")
-    let exculsiveOrExp = ExculsiveOr(Variable "a", Variable "b") 
-    
 //  Evaluate the expressions
     let NotEvaluate = Evaluate environment notExp
     let AndEvaluate = Evaluate environment andExp
@@ -47,10 +46,13 @@
     let EquealsEvaluate = Evaluate environment equalsExp
     let ImpliesEvaluate = Evaluate environment impliesExp
     let ExculsiveOrEvaluate = Evaluate environment exculsiveOrExp
+
     
 
+        
 
-// Verify
+// Verify the Propositions
+
 
 // Tautology
 
@@ -60,7 +62,11 @@
 
 // ToString
 
-// Names used
+// Names used the Propositions
+    let NamesUsed = environment |> Map.toList |> List.map (fun (fst, _) -> fst)
+    for i in NamesUsed do printfn "%A" i
+
+
 
 
    
