@@ -1,9 +1,7 @@
-﻿//
-//Compulsory	Assignment:	Propositions
-//Af Hardy, Rasmus og Tasin
-//
+﻿    // INSTANTIATE A MAP WITH MOCK DATA (of key-value pairs)
+    let dataMap = Map.ofList ["a", true; "b", false; "c", true]
 
-//  (Propositions) - Like an Interface C# Class
+    // DECLARE EXPRESSIONS WITH STRONGLY TYPED TYPES (like an interface in c#)
     type Expression =
     | Value of bool
     | Not of Expression
@@ -14,58 +12,49 @@
     | ExculsiveOr of Expression * Expression
     | Variable of string
 
-//  Evaluates the Propositions - Like a C# Class using an Abstract Class and implementing the methods.
-    let rec Evaluate (env:Map<string,bool>) exp =
+
+
+    (* --- Evaluate --- *)
+
+
+
+    // INSTANTIATE RECURSIVELY MATCHING FUNCTION (like a switch in c#)
+    let rec Evaluate (map:Map<string,bool>) exp =
         match exp with
         | Value n -> n
-        | Not (x) -> not (Evaluate env x)
-        | And (x, y) -> Evaluate env x && Evaluate env y
-        | Or (x, y) -> Evaluate env x || Evaluate env y
-        | Equals (x, y) -> Evaluate env x = Evaluate env y
-        | Implies (x, y) -> (not (Evaluate env x ) || Evaluate env y)
-        | ExculsiveOr (x, y) -> Evaluate env x <> Evaluate env y
-        | Variable id -> env.[id]
+        | Not (x) -> not (Evaluate map x)
+        | And (x, y) -> Evaluate map x && Evaluate map y
+        | Or (x, y) -> Evaluate map x || Evaluate map y
+        | Equals (x, y) -> Evaluate map x = Evaluate map y
+        | Implies (x, y) -> (not (Evaluate map x ) || Evaluate map y)
+        | ExculsiveOr (x, y) -> Evaluate map x <> Evaluate map y
+        | Variable id -> map.[id]
 
-//   Create an expression that represents
-    let notExp = Not(Variable "b");
-    let andExp = And(Variable "a", Variable "c")
-    let orExp = Or(Variable "a", Variable "b")
-    let equalsExp = Equals(Variable "a", Value true)
-    let impliesExp = Implies(Variable "b", Variable "b")
-    let exculsiveOrExp = ExculsiveOr(Variable "a", Variable "b") 
+    // INSTANTIATE EVALUATION FUNCTIONS
+    let NotEvaluate = Evaluate dataMap (Not(Variable "b"))
+    let AndEvaluate = Evaluate dataMap (And(Variable "a", Variable "c"))
+    let OrEvaluate = Evaluate dataMap (Or(Variable "a", Variable "b"))
+    let EqualsEvaluate = Evaluate dataMap (Equals(Variable "a", Value true))
+    let ImpliesEvaluate = Evaluate dataMap (Implies(Variable "b", Variable "b"))
+    let ExclusiveOrEvaluate = Evaluate dataMap (ExculsiveOr(Variable "a", Variable "b"))
     
-    //  Map filled with string keys and boolean values.
-    let environment = Map.ofList [ "a", true ;
-                                   "b", false ;
-                                   "c", true ]
+    // EXECUTE EVALUATION FUNCTIONS
+    printfn "NotEvaluate -> %b" NotEvaluate
+    printfn "AndEvaluate -> %b" AndEvaluate
+    printfn "OrEvaluate -> %b" OrEvaluate
+    printfn "EqualsEvaluate -> %b" EqualsEvaluate
+    printfn "ImpliesEvaluate -> %b" ImpliesEvaluate
+    printfn "ExclusiveOrEvaluate -> %b \n" ExclusiveOrEvaluate 
 
-//  Evaluate the expressions
-    let NotEvaluate = Evaluate environment notExp
-    let AndEvaluate = Evaluate environment andExp
-    let OrEvaluate = Evaluate environment orExp
-    let EquealsEvaluate = Evaluate environment equalsExp
-    let ImpliesEvaluate = Evaluate environment impliesExp
-    let ExculsiveOrEvaluate = Evaluate environment exculsiveOrExp
 
+
+    (* --- Names used --- *)
     
 
-        
 
-// Verify the Propositions
-
-
-// Tautology
-
-// Satisfiable
-
-// Equality
-
-// ToString
-
-// Names used the Propositions
-    let NamesUsed = environment |> Map.toList |> List.map (fun (fst, _) -> fst)
-    for i in NamesUsed do printfn "%A" i
-
+    let NamesUsed = dataMap |> Map.toList |> List.map (fun (fst, _) -> fst)
+    for name in NamesUsed do printfn "NamesUsed -> %A" name
+    printf("\n")
 
 
 
