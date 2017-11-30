@@ -1,8 +1,15 @@
-﻿    printfn "Compulsory Assignment: Propositions\n\tby Rasmus, Tasin & Hardy\n\n"
-
+﻿    open System
+    
+    // CONSOLE START MESSAGE
+    Console.BackgroundColor<-ConsoleColor.Yellow
+    Console.ForegroundColor<-ConsoleColor.Black
+    printfn "Compulsory Assignment : Propositions\n      by Rasmus, Tasin & Hardy      \n\n"
+    Console.BackgroundColor<-ConsoleColor.Black
+    Console.ForegroundColor<-ConsoleColor.White
+    
     // INSTANTIATE A MAP WITH MOCK DATA (of key-value pairs)
     let dataMap = Map.ofList ["a", true; "b", false; "c", true]
-
+    
     // DECLARE DISCRIMINATED UNIONS (like an interface in c# with strongly typed types)
     type Expression =
     | Value of bool
@@ -14,12 +21,16 @@
     | ExclusiveOr of Expression * Expression
     | Variable of string
 
-
-
-    (* --- Evaluate --- *)
-
-
-
+    
+    (*
+        Evaluate:
+        Computes the value of a proposition in a given state or environment.
+        The environment is a binding of values (either true or false).
+        The signature is:
+        
+        val Evaluate : map:Map<string,bool> -> exp:Expression -> bool
+    *)
+    
     // INSTANTIATE RECURSIVELY MATCHING FUNCTION (like a switch in c#)
     let rec Evaluate (map:Map<string,bool>) exp =
         match exp with
@@ -47,12 +58,15 @@
     printfn "EqualsEvaluate -> %b" EqualsEvaluate
     printfn "ImpliesEvaluate -> %b" ImpliesEvaluate
     printfn "ExclusiveOrEvaluate -> %b \n" ExclusiveOrEvaluate 
+    
 
-
-
-    (* --- Verify --- *)
-
-
+    (*
+        Verify:
+        Check that all variables used in the proposition are defined in an environment.
+        The signature is:
+        
+        val Verify : map:Map<string,bool> -> exp:Expression -> bool    
+    *)
 
     // INSTANTIATE RECURSIVELY MATCHING FUNCTION
     let rec Verify (map:Map<string,bool>) exp =
@@ -83,10 +97,13 @@
     printfn "ExclusiveOrVerify -> %A \n" ExclusiveOrVerify
 
 
-
-    (* --- Names used --- *)
-    
-
+    (*
+        Names Used:
+        Return a list of strings containing all the names of the variables used in a proposition.
+        The signature is:
+        
+        val NamesUsed : exp:Expression -> bool    
+    *)
 
     // INSTANTIATE RECURSIVELY MATCHING FUNCTION
     let rec NamesUsed exp = 
